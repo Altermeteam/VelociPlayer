@@ -89,6 +89,13 @@ public class VelociPlayer: AVPlayer, ObservableObject {
             setAVCategory()
         }
     }
+    
+    /// Specifies the audio category options for the system. Use `[.mixWithOthers, .duckOthers]` to allow background audio to continue at reduced volume.
+    public var audioCategoryOptions: AVAudioSession.CategoryOptions = [] {
+        didSet {
+            setAVCategory()
+        }
+    }
     #endif
     
     /// The source URL of the media file
@@ -182,8 +189,13 @@ public class VelociPlayer: AVPlayer, ObservableObject {
         #if os(iOS) || os(tvOS) || os(watchOS) || targetEnvironment(macCatalyst)
         let audioCategory = self.audioCategory
         let audioMode = self.audioMode
-        Task.detached { [audioCategory, audioMode] in
-            try? AVAudioSession.sharedInstance().setCategory(audioCategory, mode: audioMode)
+        let categoryOptions = self.audioCategoryOptions
+        Task.detached { [audioCategory, audioMode, categoryOptions] in
+            try? AVAudioSession.sharedInstance().setCategory(
+                audioCategory,
+                mode: audioMode,
+                options: categoryOptions
+            )
             try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         }
         #endif
