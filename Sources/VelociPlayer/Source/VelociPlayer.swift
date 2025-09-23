@@ -196,7 +196,7 @@ public class VelociPlayer: AVPlayer, ObservableObject {
                 mode: audioMode,
                 options: categoryOptions
             )
-            try? AVAudioSession.sharedInstance().setActive(true)
+            try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         }
         #endif
     }
