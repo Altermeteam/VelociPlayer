@@ -199,10 +199,9 @@ public class VelociPlayer: AVPlayer, ObservableObject {
                 mode: audioMode,
                 options: categoryOptions
             )
-            // Only activate without interrupting other audio when mixing is enabled
-            if categoryOptions.contains(.mixWithOthers) {
-                try? AVAudioSession.sharedInstance().setActive(true, options: [])
-            } else {
+            // When mixing with others, don't activate the session to avoid interrupting
+            // existing audio - let the system handle session activation automatically
+            if !categoryOptions.contains(.mixWithOthers) {
                 try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
             }
         }
