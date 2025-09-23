@@ -77,7 +77,7 @@ public class VelociPlayer: AVPlayer, ObservableObject {
     
     #if os(iOS) || os(tvOS) || os(watchOS) || targetEnvironment(macCatalyst)
     /// Specifies the audio mode for the system. Set this to `.default` for standard audio and `.moviePlayback` for videos.
-    public var audioMode: AVAudioSession.Mode = .default {
+    public var audioMode: AVAudioSession.Mode = .moviePlayback {
         didSet {
             setAVCategory()
         }
@@ -91,7 +91,7 @@ public class VelociPlayer: AVPlayer, ObservableObject {
     }
     
     /// Specifies the audio category options for the system. Use `[.mixWithOthers, .duckOthers]` to allow background audio to continue at reduced volume.
-    public var audioCategoryOptions: AVAudioSession.CategoryOptions = [] {
+    public var audioCategoryOptions: AVAudioSession.CategoryOptions = [.mixWithOthers] {
         didSet {
             setAVCategory()
         }
