@@ -141,6 +141,9 @@ public class VelociPlayer: AVPlayer, ObservableObject {
         self.mediaURL = mediaURL
         self.startTime = startTime
         
+        // Set up audio session with mixing options BEFORE any playback begins
+        setAVCategory()
+        
         self.publisher(for: \.status)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
