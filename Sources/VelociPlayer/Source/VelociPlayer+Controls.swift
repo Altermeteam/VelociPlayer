@@ -15,14 +15,18 @@ extension VelociPlayer {
     
     /// Begin playback of the current item
     public override func play() {
-        self.beginPlayerObservationIfNeeded()
-        self.autoPlay = true
+        Task { @MainActor in
+            self.beginPlayerObservationIfNeeded()
+            self.autoPlay = true
+        }
         super.play()
     }
     
     /// Pause playback of the current item
     public override func pause() {
-        self.autoPlay = false
+        Task { @MainActor in
+            self.autoPlay = false
+        }
         super.pause()
     }
     
